@@ -1,0 +1,25 @@
+include "turtlebot.inc"
+
+## Simulation settings
+resolution 0.02
+interval_sim 100  # simulation timestep in milliseconds
+
+
+## Load a static map
+model
+(
+  # most maps will need a bounding box
+  name "emptyBox"
+  bitmap "../maps/exp_all.pgm"
+  size [ 26.300 29.900 2.000 ]
+  pose [ 0.000 0.000 0.000 0.000 ]
+  laser_return 1
+  color "gray30"
+)
+
+
+
+
+
+
+

@@ -1,0 +1,46 @@
+<launch>
+  <arg name="map_file"  default="empty"/>
+
+  <!--  ************** Global Parameters ***************  -->
+  <param name="/use_sim_time" value="true"/>
+
+  <!--  ************** Stage Simulator *****************  -->
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find teb_local_planner_tutorials)/stage/exp_empty_four_robots.world">
+  </node>
+
+  <!--  ******************* Maps ***********************  -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/$(arg map_file).yaml" output="screen">
+    <param name="frame_id" value="map"/>
+  </node>
+
+   <!--  ************** Navigation ROBOT 0 *************  -->
+  <group ns="robot_0">
+    <!-- work around for footprint reload -->
+  	<rosparam command="delete" ns="move_base" />
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0.5 3 0 0 0 0 1 /map /robot_0/odom 100" />
+  </group>
+
+  <!-- ****************** Navigation ROBOT 1 ******************** -->
+  <group ns="robot_1">
+    <!-- work around for footprint reload -->
+  	<rosparam command="delete" ns="move_base" />
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="5 5 0 0 0 0 1 /map /robot_0/odom 100" />
+  </group>
+
+  <!-- ****************** Navigation ROBOT 2 ******************** -->
+  <group ns="robot_2">
+    <!-- work around for footprint reload -->
+  	<rosparam command="delete" ns="move_base" />
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="5 5 0 0 0 0 1 /map /robot_0/odom 100" />
+  </group>
+
+  <!-- ****************** Navigation ROBOT 3 ******************** -->
+  <group ns="robot_3">
+    <!-- work around for footprint reload -->
+  	<rosparam command="delete" ns="move_base" />
+    <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="5 5 0 0 0 0 1 /map /robot_0/odom 100" />
+  </group>
+  <!--node name="visualize_velocity_profile" pkg="teb_local_planner_tutorials" type="visualize_velocity_profile.py" output="screen" /-->
+
+
+</launch>

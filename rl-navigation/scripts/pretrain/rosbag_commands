@@ -1,0 +1,1 @@
+rosbag record /robot_0/base_pose_ground_truth /robot_0/cmd_vel /robot_0/move_base_simple/goal /robot_0/scan /robot_1/base_pose_ground_truth /robot_2/base_pose_ground_truth /robot_3/base_pose_ground_truth

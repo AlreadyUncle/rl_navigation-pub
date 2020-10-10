@@ -1,0 +1,42 @@
+<!-- 
+  Simulate a differential drive robot with the teb_local_planner in stage:
+  - stage
+  - map_server
+  - move_base
+  - static map
+  - amcl
+  - rviz view
+ -->
+<launch>
+	<arg name="base"       default="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
+  	<arg name="stacks"     default="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
+  	<arg name="3d_sensor"  default="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
+	<!--  ************** Global Parameters ***************  -->
+	<param name="/use_sim_time" value="true"/>
+
+	<!--  ************** Stage Simulator ***************  -->
+	<node pkg="stage_ros" type="stageros" name="stageros" args="$(find teb_local_planner_tutorials)/stage/exp_all.world">
+		<!--<remap from="base_scan" to="scan"/>-->
+  	</node>
+
+   	<!--  ************** Navigation ROBOT 0 *************  -->
+   	<group ns="robot_0">
+	   	<rosparam command="delete" ns="move_base" />
+     	<node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="1 -13 0 1.57079 0 0 /map /robot_0/odom 100" />
+   	</group>
+
+  	<!-- ****************** Navigation ROBOT 1 ******************** -->
+  	<group ns="robot_1">
+	  	<rosparam command="delete" ns="move_base" />
+    	<node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="1 -14 0 1.57079 0 0 /map /robot_1/odom 100" />
+  	</group>
+
+	
+	<!--  ****** Maps *****  -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find teb_local_planner_tutorials)/maps/exp_all.yaml" output="screen">
+		<param name="frame_id" value="map"/>
+	</node>
+
+	<!--<node name="rviz" pkg="rviz" type="rviz" args="-d $(find teb_local_planner_tutorials)/cfg/rviz_navigation.rviz"/>-->
+
+</launch>
